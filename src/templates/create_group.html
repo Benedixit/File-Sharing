@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Group</title>
+</head>
+<body>
+    <h1>Create Group</h1>
+    <form method="post">
+        {{ form.csrf_token }}
+        <div>
+            {{ form.name.label }}: {{ form.name }}
+            {% if form.name.errors %}
+                <ul>
+                    {% for error in form.name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <button type="submit">Create Group</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User to Project</title>
+</head>
+<body>
+    <h1>Add User to Group</h1>
+    <form method="POST" action="">
+        <label for="user_ids">Select User:</label>
+        <select name="user_ids" id="user_ids">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.email }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Add User to Project</button>
+    </form>
+</body>
+</html>
