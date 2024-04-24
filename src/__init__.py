@@ -21,8 +21,6 @@ configure_uploads(app, photos)
 bcrypt = Bcrypt(app)
 
 principal = Principal(app)
-
-
 db.init_app(app)
 
 with app.app_context():

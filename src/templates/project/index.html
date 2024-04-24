@@ -1,0 +1,33 @@
+<form method="POST" enctype="multipart/form-data" class="row">
+  {{ form.csrf_token }}
+    <div class="form-group col">
+      {{ form.name(class="form-control", placeholder="What is the name of your new folder?") }}
+    </div>
+
+    <div class="col">
+    {{ form.submit(class="btn btn-primary") }}  
+    </div>
+  </form>
+
+
+  <div class="d-flex flex-wrap">
+    {% if folders %}
+    {% for folder in folder %}
+
+    <div class="card m-2" style="width: 18rem;">
+      
+      <img src="" class="card-img-top"
+       style="object-fit: cover;">
+
+      <div class="card-body">
+        <h5 class="card-title pb-2">{{ folder.name }}</h5>
+      <div class="row">
+        <a href="#" class="btn btn-primary col w-2">View</a>
+    </div>
+      </div>
+    </div>
+    
+    {% endfor %}
+
+    {% endif %}
+<div>

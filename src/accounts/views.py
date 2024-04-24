@@ -24,18 +24,6 @@ def create_group():
     return render_template('create_group.html', form=form)
 
 
-@accounts_bp.route('/project/create', methods=['GET' , 'POST'])
-def create_project():
-    form = ProjectForm()
-    if form.validate_on_submit():
-        filename = photos.save(form.image.data)
-        project = Project(name=form.name.data, image=filename)
-        db.session.add(project)
-        db.session.commit()
-        return redirect(url_for("core.home"))
-    return render_template('project/create.html', form=form)
-
-
 
 @accounts_bp.route("/register", methods=["GET", "POST"])
 def register():

@@ -10,3 +10,7 @@ class ProjectForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     image = FileField('Image', validators=[FileRequired()])
     submit = SubmitField('Create Project') 
+
+class FolderForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    submit = SubmitField('Create Project') 

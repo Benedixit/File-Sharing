@@ -1,9 +1,9 @@
 from flask import Blueprint, request, redirect, render_template, url_for
-from src.accounts.models import Project, User, Group, File
+from src.accounts.models import Project, User, Group, File, Folder
 from flask_login import current_user
 from src.extensions import db
 from werkzeug.utils import secure_filename
-from .forms import FileUploadForm, ProjectForm
+from .forms import FileUploadForm, ProjectForm, FolderForm
 from src.extensions import db, photos
 import os
 
@@ -35,7 +35,15 @@ def delete_project(project_id):
     
 @core_bp.route('/project/<int:project_id>/', methods=['GET', 'POST'])
 def project_view(project_id):
-    return render_template("project/index.html")
+    form = FolderForm()
+    if form.validate_on_submit():
+        folder = Folder(name=form.name.data)
+        db.session.add(folder)
+        db.session.commit()
+        return redirect(url_for("core.home"))
+    folders = Folder.query.all()
+    return render_template("project/index.html", form=form, folders=folders)
+
 
 @core_bp.route("/users", methods=["GET", "POST"])
 def all_users():

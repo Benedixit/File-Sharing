@@ -53,7 +53,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     image = db.Column(db.String(255))
-    files = db.relationship('File', backref='project', lazy=True, cascade='all, delete-orphan')
+    folders = db.relationship('Folder', backref='project', lazy=True, cascade='all, delete-orphan')
 
 
     def __init__(self, name, image):
@@ -72,7 +72,7 @@ class File(db.Model):
     filename = db.Column(db.String(255), nullable=False)
     upload_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    folder_id = db.Column(db.Integer, db.ForeignKey('folder.id'), nullable=False)
     file_size = db.Column(db.Integer, nullable=False)
     file_type = db.Column(db.String(64), nullable=False)
 
@@ -92,9 +92,12 @@ class Folder(db.Model):
     __tablename__ = "folder"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=False)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    files = db.relationship('File', backref='folder', lazy=True, cascade='all, delete-orphan')
 
-    def __init__(self, name):
+    def __init__(self, name, project_id):
         self.name = name
+        self.project_id = project_id
     
     def __repr__(self):
         return f"<name {self.name}>"
