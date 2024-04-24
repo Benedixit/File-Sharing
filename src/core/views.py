@@ -3,7 +3,8 @@ from src.accounts.models import Project, User, Group, File
 from flask_login import current_user
 from src.extensions import db
 from werkzeug.utils import secure_filename
-from .forms import FileUploadForm
+from .forms import FileUploadForm, ProjectForm
+from src.extensions import db, photos
 import os
 
 
@@ -11,8 +12,30 @@ core_bp = Blueprint("core", __name__)
 
 @core_bp.route("/", methods=["GET", "POST"])
 def home():
+    form = ProjectForm()
+    if form.validate_on_submit():
+        filename = photos.save(form.image.data)
+        project = Project(name=form.name.data, image=filename)
+        db.session.add(project)
+        db.session.commit()
+        return redirect(url_for("core.home"))
     projects = Project.query.all()
-    return render_template("index.html", projects=projects)
+    return render_template("index.html", projects=projects, form=form)
+
+
+@core_bp.route('/project/<int:project_id>/delete', methods=['POST', 'DELETE'])
+def delete_project(project_id):
+    project = Project.query.get(project_id)
+    if project:
+        db.session.delete(project)
+        db.session.commit()
+        return redirect("/")
+    else:
+        return 'Project not found', 404
+    
+@core_bp.route('/project/<int:project_id>/', methods=['GET', 'POST'])
+def project_view(project_id):
+    return render_template("project/index.html")
 
 @core_bp.route("/users", methods=["GET", "POST"])
 def all_users():

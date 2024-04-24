@@ -53,7 +53,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
     image = db.Column(db.String(255))
-    files = db.relationship('File', backref='project', lazy=True)
+    files = db.relationship('File', backref='project', lazy=True, cascade='all, delete-orphan')
 
 
     def __init__(self, name, image):
@@ -88,8 +88,17 @@ class File(db.Model):
         return f"<File {self.filename}>"
 
 
+class Folder(db.Model):
+    __tablename__ = "folder"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255), nullable=False)
 
-
+    def __init__(self, name):
+        self.name = name
+    
+    def __repr__(self):
+        return f"<name {self.name}>"
+ 
 user_groups = db.Table('user_groups',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
     db.Column('group_id', db.Integer, db.ForeignKey('group.id'), primary_key=True)
