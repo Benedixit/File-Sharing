@@ -7,13 +7,17 @@ from .accounts.views import accounts_bp
 from .core.views import core_bp
 from .extensions import db
 from flask_principal import Principal, identity_loaded, RoleNeed
-
-
+from flask_uploads import configure_uploads
+from .extensions import photos
 
 
 app = Flask(__name__)
  
 app.config.from_object(config("APP_SETTINGS"))
+app.config['UPLOADS_DEFAULT_DEST'] = "src/static/upload/"
+app.config["UPLOADED_PHOTOS_DEST"] = "src/static/upload/"
+configure_uploads(app, photos)
+
 bcrypt = Bcrypt(app)
 
 principal = Principal(app)

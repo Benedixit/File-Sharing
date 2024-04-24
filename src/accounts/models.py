@@ -52,11 +52,13 @@ class Project(db.Model):
     __tablename__ = "project"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, unique=True, nullable=False)
+    image = db.Column(db.String(255))
     files = db.relationship('File', backref='project', lazy=True)
 
 
-    def __init__(self, name):
+    def __init__(self, name, image):
         self.name = name
+        self.image = image
         self.create_folder()
 
     def create_folder(self):

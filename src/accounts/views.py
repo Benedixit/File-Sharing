@@ -3,7 +3,7 @@ from flask_principal import Permission, RoleNeed, identity_changed, UserNeed, Ro
 from flask_login import login_user
 from .forms import RegisterForm, LoginForm, GroupForm, ProjectForm
 from src.accounts.models import User, Group, Project
-from src.extensions import db
+from src.extensions import db, photos
 
 accounts_bp = Blueprint("accounts", __name__)
 
@@ -26,13 +26,14 @@ def create_group():
 
 @accounts_bp.route('/project/create', methods=['GET' , 'POST'])
 def create_project():
-    form = ProjectForm(request.form)
+    form = ProjectForm()
     if form.validate_on_submit():
-        project = Project(name=form.name.data)
+        filename = photos.save(form.image.data)
+        project = Project(name=form.name.data, image=filename)
         db.session.add(project)
         db.session.commit()
-        return redirect('/')
-    return render_template('create_project.html', form=form)
+        return redirect(url_for("core.home"))
+    return render_template('project/create.html', form=form)
 
 
 

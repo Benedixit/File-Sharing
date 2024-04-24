@@ -11,8 +11,8 @@ core_bp = Blueprint("core", __name__)
 
 @core_bp.route("/", methods=["GET", "POST"])
 def home():
-    project = Project.query.all()
-    return render_template("home.html", project=project)
+    projects = Project.query.all()
+    return render_template("index.html", projects=projects)
 
 @core_bp.route("/users", methods=["GET", "POST"])
 def all_users():

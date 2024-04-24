@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import EmailField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 from src.accounts.models import User
@@ -43,4 +44,5 @@ class GroupForm(FlaskForm):
 
 class ProjectForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Create Group') 
+    image = FileField('Image', validators=[FileRequired()])
+    submit = SubmitField('Create Project') 
