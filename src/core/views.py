@@ -1,4 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, url_for
+from flask import Blueprint, request, redirect, render_template, url_for, flash
 from src.accounts.models import Project, User, Group, File, Folder
 from flask_login import current_user
 from src.extensions import db
@@ -32,18 +32,28 @@ def delete_project(project_id):
         return redirect("/")
     else:
         return 'Project not found', 404
-    
+
+
 @core_bp.route('/project/<int:project_id>/', methods=['GET', 'POST'])
 def project_view(project_id):
-    form = FolderForm()
-    if form.validate_on_submit():
-        folder = Folder(name=form.name.data)
-        db.session.add(folder)
-        db.session.commit()
-        return redirect(url_for("core.home"))
-    folders = Folder.query.all()
-    return render_template("project/index.html", form=form, folders=folders)
+    folders = Folder.query.filter_by(project_id=project_id).all()
+    return render_template("project/index.html", folders=folders, project_id=project_id)
 
+
+@core_bp.route('/project/<int:project_id>/folder/create', methods=['GET', 'POST'])
+def folder_view(project_id):
+    form = FolderForm()
+    if request.method == "POST" and form.validate_on_submit():
+        folder = Folder(name=form.name.data, project_id=project_id)
+        try:
+            db.session.add(folder)
+            db.session.commit()
+            return redirect(url_for('core.project_view', project_id=project_id))
+        except Exception as e:
+            db.session.rollback()
+            flash("An error occurred while creating the folder.", "error")
+            print(e)
+    return render_template("folder/index.html", form=form, project_id=project_id)
 
 @core_bp.route("/users", methods=["GET", "POST"])
 def all_users():

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+<form method="POST" class="row py-4">
+    {{ form.csrf_token }}
+      <div class="form-group col w-3">
+        {{ form.name(class="form-control", placeholder="What is the name of your new folder?") }}
+      </div>
+  
+      <div class="col">
+      {{ form.submit(class="btn btn-primary create_folder") }}  
+      </div>
+  </form>
+</main>
+
+{% endblock %}

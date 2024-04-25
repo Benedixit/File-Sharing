@@ -1,18 +1,14 @@
-<form method="POST" enctype="multipart/form-data" class="row">
-  {{ form.csrf_token }}
-    <div class="form-group col">
-      {{ form.name(class="form-control", placeholder="What is the name of your new folder?") }}
-    </div>
+{% extends "base.html" %}
+{% block title %} Welcome {% endblock %}
 
-    <div class="col">
-    {{ form.submit(class="btn btn-primary") }}  
-    </div>
-  </form>
-
-
+{% block content %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main_dashboard">
+<div>
+  <a href="{{ url_for('core.folder_view', project_id=project_id) }}" class="btn btn-primary">Create Folder</a>
+</div>
   <div class="d-flex flex-wrap">
-    {% if folders %}
-    {% for folder in folder %}
+   
+    {% for folder in folders %}
 
     <div class="card m-2" style="width: 18rem;">
       
@@ -29,5 +25,6 @@
     
     {% endfor %}
 
-    {% endif %}
+
 <div>
+{% endblock %}

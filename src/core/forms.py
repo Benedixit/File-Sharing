@@ -13,4 +13,4 @@ class ProjectForm(FlaskForm):
 
 class FolderForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
-    submit = SubmitField('Create Project') 
+    submit = SubmitField('Create Folder') 
