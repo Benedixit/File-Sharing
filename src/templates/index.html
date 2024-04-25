@@ -4,7 +4,7 @@
 {% block content %}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main_dashboard">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2">Projects</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group me-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -32,23 +32,13 @@
           </div>
       </form>
 
-      <div class="d-flex flex-wrap">
+      <div class="d-flex flex-wrap gap-5 py-4">
         {% if projects %}
           {% for project in projects %}
-          <div class="card m-2" style="width: 18rem; height:18rem;">
-            <img src="{{ url_for('static', filename='upload/' + project.image) }}" class="card-img-top" alt={{ project.name }}
-            style="object-fit: cover;">
-
-            <div class="card-body">
-              <h5 class="card-title pb-2">{{ project.name }}</h5>
-              <div class="row">
-                <a class="btn btn-primary col" href="/project/{{ project.id }}">View</a>
-                <form action="/project/{{ project.id }}/delete" class="col w-2" method="POST" id="deleteForm{{ project.id }}">
-                  <input type="hidden" name="_method" value="DELETE">
-                  <button type="button" class="btn btn-danger" onclick="deleteProject({{ project.id }})">Delete</button>
-                </form>
-              </div>
-            </div>
+          <div class="" style="width:14rem;">  
+            <img src="{{ url_for('static', filename='upload/' + project.image) }}" class="card-img-top rounded"
+             style="object-fit: cover; width:; height: 14rem;">
+              <a href="/project/{{ project.id }}" class="btn fw-bold">{{ project.name }}</a>
           </div>
         {% endfor %}
 
